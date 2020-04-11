@@ -8,29 +8,19 @@
       </label>
       <h5>Points remaining: {{ totalStat }}</h5>
       <div class="stat-row">
-        <button type="button" class="minus" @click="resetPoint('strength')">
-          -
-        </button>
+        <button type="button" class="minus" @click="resetPoint('strength')">-</button>
         <p>Strength: {{ strength }}</p>
-        <button type="button" class="plus" @click="usePoint('strength')">
-          +
-        </button>
+        <button type="button" class="plus" @click="usePoint('strength')">+</button>
       </div>
       <div class="stat-row">
-        <button type="button" class="minus" @click="resetPoint('speed')">
-          -
-        </button>
+        <button type="button" class="minus" @click="resetPoint('speed')">-</button>
         <p>Speed: {{ speed }}</p>
         <button type="button" class="plus" @click="usePoint('speed')">+</button>
       </div>
       <div class="stat-row">
-        <button type="button" class="minus" @click="resetPoint('agility')">
-          -
-        </button>
+        <button type="button" class="minus" @click="resetPoint('agility')">-</button>
         <p>Agility: {{ agility }}</p>
-        <button type="button" class="plus" @click="usePoint('agility')">
-          +
-        </button>
+        <button type="button" class="plus" @click="usePoint('agility')">+</button>
       </div>
 
       <button type="submit">Create</button>
@@ -52,7 +42,7 @@ export default {
       agility: 0,
       speed: 0,
       error: "",
-      success: "",
+      success: ""
     };
   },
   methods: {
@@ -71,7 +61,7 @@ export default {
           name: this.name,
           strength: this.strength,
           agility: this.agility,
-          speed: this.speed,
+          speed: this.speed
         });
         // console.log(data);
         this.name = "";
@@ -126,8 +116,8 @@ export default {
         default:
           console.log("No stat type");
       }
-    },
-  },
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>
@@ -142,16 +132,27 @@ export default {
 
     .stat-row {
       display: flex;
+      padding: 10px 0;
       align-items: center;
       .minus {
         background-color: red;
         border: none;
         border-radius: 4px;
         height: 20px;
+        padding: 5px 10px;
+        display: flex;
+        justify-content: center;
+        cursor: pointer;
+        align-items: center;
         margin-right: 10px;
       }
       .plus {
         background-color: lightgreen;
+        padding: 5px 10px;
+        display: flex;
+        cursor: pointer;
+        justify-content: center;
+        align-items: center;
         border: none;
         border-radius: 4px;
         height: 20px;

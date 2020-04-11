@@ -61,21 +61,6 @@ router.put("/", async (req, res) => {
   }
 });
 
-router.get("/:name", async (req, res) => {
-  console.log(req.params);
-  /**
-     * 
-  try {
-    res.send({
-      user: req.user,
-    });
-  } catch (error) {
-    console.log(error);
-    return res.sendStatus(500);
-  }
-     */
-});
-
 router.get("/", async (req, res) => {
   try {
     const allHeros = await Hero.find();
@@ -88,17 +73,15 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.delete("/:name", async (req, res) => {
-  /**
-     * 
+router.delete("/", async (req, res) => {
   try {
+    await Hero.deleteOne({ _id: req.body.id });
 
-    res.sendStatus(200);
+    res.status(200).send({ message: "Success, hero is banished" });
   } catch (error) {
     console.log(error);
     return res.sendStatus(500);
   }
-     */
 });
 
 module.exports = {

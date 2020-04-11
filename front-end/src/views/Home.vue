@@ -11,47 +11,31 @@
         </label>
         <h5>Points remaining: {{ totalStat }}</h5>
         <div class="edit-row">
-          <button type="button" class="minus" @click="resetPoint('strength')">
-            -
-          </button>
+          <button type="button" class="minus" @click="resetPoint('strength')">-</button>
           <p>Strength: {{ strength }}</p>
-          <button type="button" class="plus" @click="usePoint('strength')">
-            +
-          </button>
+          <button type="button" class="plus" @click="usePoint('strength')">+</button>
         </div>
         <div class="edit-row">
-          <button type="button" class="minus" @click="resetPoint('speed')">
-            -
-          </button>
+          <button type="button" class="minus" @click="resetPoint('speed')">-</button>
           <p>Speed: {{ speed }}</p>
-          <button type="button" class="plus" @click="usePoint('speed')">
-            +
-          </button>
+          <button type="button" class="plus" @click="usePoint('speed')">+</button>
         </div>
         <div class="edit-row">
-          <button type="button" class="minus" @click="resetPoint('agility')">
-            -
-          </button>
+          <button type="button" class="minus" @click="resetPoint('agility')">-</button>
           <p>Agility: {{ agility }}</p>
-          <button type="button" class="plus" @click="usePoint('agility')">
-            +
-          </button>
+          <button type="button" class="plus" @click="usePoint('agility')">+</button>
         </div>
 
-        <button type="submit">Submit</button>
+        <div class="button-row">
+          <button type="button" class="delete" @click="deleteHero">Banish to Ragnarok</button>
+          <button type="submit" class="train">Train</button>
+        </div>
       </form>
     </div>
     <h2>Hall of Heroes</h2>
     <div class="list">
-      <div
-        class="hero-card"
-        v-for="hero in heroes"
-        :key="hero.name"
-        @click="showEditHero(hero)"
-      >
-        <h5>
-          {{ hero.name }}
-        </h5>
+      <div class="hero-card" v-for="hero in heroes" :key="hero.name" @click="showEditHero(hero)">
+        <h5>{{ hero.name }}</h5>
         <div class="stat-row">
           <p>Strength: {{ hero.strength }}</p>
           <p>Speed: {{ hero.speed }}</p>
@@ -78,10 +62,25 @@ export default {
       agility: 0,
       name: "",
       totalStat: 0,
-      heroId: "",
+      heroId: ""
     };
   },
   methods: {
+    async deleteHero() {
+      try {
+        const { data } = await axios.delete("/api/hero/", {
+          data: {
+            id: this.heroId
+          }
+        });
+
+        this.editMode = false;
+        // console.log(data);
+        this.getHeroes();
+      } catch (error) {
+        console.log(error);
+      }
+    },
     usePoint(type) {
       if (this.totalStat === 0) {
         return;
@@ -155,7 +154,7 @@ export default {
           name: this.name,
           strength: this.strength,
           agility: this.agility,
-          speed: this.speed,
+          speed: this.speed
         });
 
         this.editMode = false;
@@ -172,12 +171,12 @@ export default {
       } catch (error) {
         console.log(error);
       }
-    },
+    }
   },
 
   async created() {
     this.getHeroes();
-  },
+  }
 };
 </script>
 
@@ -204,19 +203,62 @@ export default {
     .edit-row {
       display: flex;
       align-items: center;
+      padding: 10px 0;
       .minus {
         background-color: red;
         border: none;
         border-radius: 4px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         height: 20px;
         margin-right: 10px;
+        padding: 5px 10px;
+        cursor: pointer;
       }
       .plus {
         background-color: lightgreen;
+        cursor: pointer;
+        padding: 5px 10px;
         border: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         border-radius: 4px;
         height: 20px;
         margin-left: 10px;
+      }
+    }
+    .button-row {
+      display: flex;
+      width: 100%;
+      justify-content: space-around;
+      .delete {
+        cursor: pointer;
+        background-color: red;
+        transition-duration: 1s;
+        color: maroon;
+        border: none;
+        border-radius: 40px;
+        padding: 10px;
+        &:hover {
+          background-color: maroon;
+          color: black;
+        }
+      }
+
+      .train {
+        padding: 10px;
+        cursor: pointer;
+        background-color: mediumseagreen;
+        color: green;
+        border-radius: 40px;
+        border: none;
+        transition-duration: 1s;
+        &:hover {
+          background-color: green;
+          color: white;
+        }
       }
     }
   }
@@ -231,6 +273,7 @@ export default {
       background-color: lightgrey;
       box-shadow: 0 2px 10px #00000032;
       margin: 10px;
+      padding: 20px;
       transition-duration: 200ms;
       &:hover {
         transform: translateY(-5px);
@@ -239,6 +282,7 @@ export default {
       .stat-row {
         display: flex;
         justify-content: space-evenly;
+        padding: 20px 0;
       }
     }
   }

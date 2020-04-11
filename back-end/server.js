@@ -22,4 +22,4 @@ mongoose.connect("mongodb://localhost:27017/hero-creator", {
 app.use("/api/hero", hero.routes);
 
 // listen on port 3000
-app.listen(3000, () => console.log("Server listening on port: 3000"));
+app.listen(3005, () => console.log("Server listening on port: 3005"));
